@@ -61,9 +61,9 @@ public class ORDSTest {
     public void test3(){
         Response response = given().get(baseURI+"/regions");
         assertEquals(200, response.getStatusCode());
-//to get specific header
+        //to get specific header
         Header header = response.getHeaders().get("Content-Type");
-//print all headers one by one
+        //print all headers one by one
         for(Header h: response.getHeaders()){
             System.out.println(h);
         }
