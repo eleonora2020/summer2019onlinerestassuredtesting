@@ -1,5 +1,6 @@
 package com.automation.tests.day2;
 
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +35,39 @@ public class ORDSTest {
         System.out.println(response.getBody().asString()); //when we get response, we get header, body, ...
         //very first thing in API testing is, we need to verify the Status Code. To check the status code, we do the following:
 
-        assertEquals(200, response.getStatusCode()); //verify that status code is 200
+        assertEquals(200, response.getStatusCode()); //checking if results are equal. verify that status code is 200
 
+    }
+    //get employee with id 100 and verify that response returns status code 200. Also, print body
+    @Test
+    public void test2() {
+
+        //header stands for meta data
+        //usually it's used to include cookies
+        //in this example, we are specifying what kind of response type we need
+        //because web service can return let's say json or xml
+        //when we put header info "Accept", "application/json", we are saying that we need only json file as response
+                                      //headerName:"accept", headerValue:"application/json"(content-type);
+        Response response = given().header("accept", "application/json").get(baseURI + "/employees/100"); //path: baseURI
+        int actualStatusCode = response.getStatusCode();
+        System.out.println(response.prettyPrint());
+        assertEquals(200, actualStatusCode);
+                 //get information about response content type, you can retrieve from response object
+                System.out.println("What kind of content server sends to you, in this response: "+response.getHeader("Content-Type"));
+            }
+        // #Task: perform GET request to /regions, print body and all headers.
+
+    @Test
+    public void test3(){
+        Response response = given().get(baseURI+"/regions");
+        assertEquals(200, response.getStatusCode());
+//to get specific header
+        Header header = response.getHeaders().get("Content-Type");
+//print all headers one by one
+        for(Header h: response.getHeaders()){
+            System.out.println(h);
+        }
+        System.out.println("##########################");
+        System.out.println(response.prettyPrint());
     }
 }
