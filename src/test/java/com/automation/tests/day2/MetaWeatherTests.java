@@ -36,8 +36,8 @@ import static org.junit.jupiter.api.Assertions.*;
             System.out.println(response.prettyPrint());
 
         }
-        //this is an example for query parameter: /api/location/search/?query=san
-        //this is an example for path parameter: /api/location/44418/
+        //example for query parameter: /api/location/search/?query=san
+        //example for path parameter: /api/location/44418/
 
         // /users/100/ - 100 it's a path parameter
         // /users/255/ - 155 it's a path parameter

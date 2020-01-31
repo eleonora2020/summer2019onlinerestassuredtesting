@@ -47,19 +47,21 @@ public class ORDSTestsDay3 {
 
     @Test
     public void test2() {
-        given().
+        given(). //we cannot use assertThat for given. Because, we need a response for the request in order to use assertThat.
                 accept("application/json").
                 pathParam("id", 100).
-        when().get("/employees/{id}").
-        then().assertThat().statusCode(200).
-        and().assertThat().body("employee_id", is(100),
-                "department_id", is(90),
-                "last_name", is("King")).
+        when().get("/employees/{id}"). //when we call/retrieve info from /employees/{id}
+                //whenever we use anything inside the {}, it calls pathParam. so we have to specify it in the pathParam.
+        then().assertThat().statusCode(200). //then we need to get the status code 200
+        and().assertThat().body("employee_id", is(100), //body means, retrieving info from the body of the json data
+                        "department_id", is(90), //is - is shortcut for equalTo()
+                                     "last_name", is("King")). //log body in pretty format. all = header + body + status code
                 log().all(true);
         //body ("phone_number") --> 515.123.4567
-        //is - is coming from ---> import static org.hamcrest.Matchers.*;
+        //is - is shortcut for equalTo() and it is coming from import static org.hamcrest.Matchers.*;
         //log().all  Logs everything in the response, including e.g. headers,
         // cookies, body with the option to pretty-print the body if the content-type is
+        // assertThat is a junit feature.
     }
 
     /**
@@ -77,18 +79,20 @@ public class ORDSTestsDay3 {
                 pathParam("id", 1).
                 when().
                 get("/regions/{id}").
-                then().
+                then(). //then() - returns a validatable response that's lets you validate the response. Usage
                 assertThat().statusCode(200).
                 assertThat().body("region_name", is("Europe")).
-                time(lessThan(10L), TimeUnit.SECONDS).
-                log().body(true);//log body in pretty format. all = header + body + status code
-
-        //verify that response time is less than 10 seconds
+                time(lessThan(10L), TimeUnit.SECONDS). //verifies that response time is less than 10 seconds.
+                           // If it takes more than 10 seconds, then it will fail. 10L - it requires long datatype
+                //extract().response().prettyprint(); --> prints the json body/response again to the console; or just use log.body(true);
+                // prettyPrint only prints the body;
+                // extract - when we done some kind of assertion or validate something, we need to use the extract to get the json body/response again
+                log().body(true); //log body in pretty format. all = header + body + status code
     }
 
     @Test
     public void test4() {
-        JsonPath json = given().
+        JsonPath json = given(). //jsonPath class is json file inside the java object
                 accept("application/json").
                 when().
                 get("/employees").
@@ -121,7 +125,6 @@ public class ORDSTestsDay3 {
         }
 
     }
-
     //write a code to
     //get info from /countries as List<Map<String, ?>>
     //prettyPrint() - print json/xml/html in nice format and returns string, thus we cannot retrieve jsonpath without extraction...
