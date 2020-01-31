@@ -99,7 +99,7 @@ public class ORDSTestsDay3 {
                 thenReturn().jsonPath();
 
         //items[employee1, employee2, employee3] | items[0] = employee1.first_name = Steven
-
+        //below is Groovy syntax
         String nameOfFirstEmployee = json.getString("items[0].first_name");
         String nameOfLastEmployee = json.getString("items[-1].first_name"); //-1 - last index
 
@@ -113,10 +113,10 @@ public class ORDSTestsDay3 {
         //since firstEmployee it's a map (key-value pair, we can iterate through it by using Entry. entry represent one key=value pair)
         // put ? as a value (Map<String, ?>), because there are values of different data type: string, integer, etc..
         //if you put String as value, you might get some casting exception that cannot convert from integer(or something else) to string
-        for (Map.Entry<String, ?> entry : firstEmployee.entrySet()) {
+        for (Map.Entry<String, ?> entry : firstEmployee.entrySet()) { //map iteration using for each loop
             System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
         }
-//       get and print all last names
+//        get and print all last names
 //        items it's an object. whenever you need to read some property from the object, you put object.property
 //        but, if response has multiple objects, we can get property from every object
         List<String> lastNames = json.get("items.last_name");
@@ -134,7 +134,7 @@ public class ORDSTestsDay3 {
         JsonPath json = given().
                 accept("application/json").
                 when().
-                get("/countries").prettyPeek().jsonPath(); // exclude .prettyPeek() and you will not see detailed info about response
+                get("/countries").prettyPeek().jsonPath(); // exclude .prettyPeek() if you do not want to see detailed info about response
 
         List<HashMap<String, ?>> allCountries = json.get("items");
 
@@ -146,7 +146,6 @@ public class ORDSTestsDay3 {
             System.out.println(map);
         }
     }
-
     // get collection of employee's salaries
     // then sort it
     // and print
@@ -157,7 +156,10 @@ public class ORDSTestsDay3 {
                 when().
                 get("/employees").
                 thenReturn().jsonPath().get("items.salary");
-        Collections.sort(salaries, Collections.reverseOrder());//sort from a to z, 0-9
+        Collections.sort(salaries, Collections.reverseOrder());//sort from a to z, 0-9 and reverse them.
+           //or use below way:
+        //Collections.sort(salaries);
+        //Collections.reverse(salaries);
         System.out.println(salaries);
     }
 
