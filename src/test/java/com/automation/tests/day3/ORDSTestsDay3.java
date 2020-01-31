@@ -195,10 +195,10 @@ public class ORDSTestsDay3 {
     @Test
     public void test8(){
         Response response = given().
-                accept(ContentType.JSON).
-                pathParam("id", 1700).
-                when().
-                get("/locations/{id}");
+                accept(ContentType.JSON).//Given accept type as JSON. JSON we are giving if we don't know which of these
+                // content types will be used: ("application/json", "application/javascript", "text/javascript", "text/json")
+                pathParam("id", 1700). //And path parameter is id with value 1700
+                when().get("/locations/{id}"); //When user sends get request to /locations
 
         response.
                 then().
